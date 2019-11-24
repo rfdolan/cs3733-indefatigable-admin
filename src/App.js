@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import VideoPanel from './VideoPanel.js'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  // initialize state
+  state = {
+
+  };
+
+  // Within each tab goes the content for the given tab
+  render() {
+    return (
+      <div>
+        <h1>INDEFATIGABLE</h1>
+        <form>
+          <label>
+              Enter new remote site url: 
+              <input type="text" />
+              <button type="submit">Register</button>
+          </label>
+        </form>
+          <br />
+            <VideoPanel />
+      </div>
+    );
+  }
 }
 
 export default App;
