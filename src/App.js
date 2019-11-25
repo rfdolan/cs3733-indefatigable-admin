@@ -13,10 +13,10 @@ class App extends React.Component {
       <div>
         <h1>INDEFATIGABLE</h1>
         <form>
-          <label>
+          <label style={{display:"inline-block"}}>
               Enter new remote site url: 
-              <input type="text" />
-              <button type="submit">Register</button>
+              <input type="text" style={{margin:"5px"}} />
+              <button type="submit"style={{margin:"5px"}} >Register</button>
           </label>
         </form>
           <br />

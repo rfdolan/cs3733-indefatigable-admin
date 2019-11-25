@@ -60,9 +60,16 @@ class VideoPanel extends React.Component {
             <div>
                 <div>
                     <form>
-                        <label>
+                        <label style={{display:"inline-block"}}>
                             Search:
-                            <input type="text" />
+                            <input type="text" style={{margin: "5px"}} />
+                            <select style={{margin: "5px"}}>
+                                <option value="any">Any character</option>
+                                <option value="Kirk">Kirk</option>
+                                <option value="Spock">Spock</option>
+                                <option value="McCoy">McCoy</option>
+                                <option value="Fisher">Fisher</option>
+                            </select>
                             <button type="submit">Go</button>
                         </label>
                     </form>
