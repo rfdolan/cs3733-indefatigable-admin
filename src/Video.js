@@ -11,6 +11,16 @@ class Video extends React.Component {
         isRemotelyAvailable: this.props.isRemotelyAvailable,
         id: this.props.id,
     }
+
+    getRemotelyAvailableBool = () => {
+        if(this.state.isRemotelyAvailable === 0) {
+            console.log("false");
+            return "false";
+        }
+        console.log("true");
+        return "true";
+    }
+
     render() {
         return (
             <div style={{padding:"10px", maxWidth:"325px", backgroundColor: "#3ed2e6", borderRadius: "25px" }}>
@@ -18,6 +28,9 @@ class Video extends React.Component {
                 <h4>Character: {this.state.character}</h4>
                 <h4>Transcript: {this.state.transcript}</h4>
                 <video display="block" margin="0 auto" src={this.state.url} width="320" height="240" style={{borderRadius: "25px"}} controls>Your browser does not support this video.</video>
+                <label>Remotely available?
+                    <input  name="isAvailable" type="checkbox" onClick={this.toggleRemote}></input>
+                </label>
             </div>
         );
     }

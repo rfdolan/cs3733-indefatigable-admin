@@ -15,7 +15,6 @@ class VideoPanel extends React.Component {
 
     state = {
         videos: [],
-        localOnly: false,
     }
 
     // These two functions make us promise not to update the state if the component
@@ -40,18 +39,13 @@ class VideoPanel extends React.Component {
     }
     
 
-    toggleFilter = () => {
-        this.setState({localOnly: !this.state.localOnly});
-        this.renderVideos();
-    }
-    
     renderVideos = () => {
         // Array of JSX videos we want to render.
         let vids = [];
         for(let i=0; i<this.state.videos.length; i++ ) {
             let currVid = this.state.videos[i];
             // If we are not filtering by local only OR if we are and this is a local video, add it to the array.
-            if((!this.state.localOnly) || (this.state.localOnly && !currVid.isRemote)){
+            if( !currVid.isRemote){
                 vids.push(<li key={currVid.vuid} style={{listStyleType: "none", padding: "5px", float: "left"}}><Video title={currVid.title} transcript={currVid.transcript} url={currVid.url} 
                     character={currVid.character} isRemote={currVid.isRemote} isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid}></Video></li>);
             }
@@ -66,17 +60,19 @@ class VideoPanel extends React.Component {
             <div>
                 <div>
                     <form>
-                        <label>
+                        <label style={{display:"inline-block"}}>
                             Search:
-                            <input type="text" />
+                            <input type="text" style={{margin: "5px"}} />
+                            <select style={{margin: "5px"}}>
+                                <option value="any">Any character</option>
+                                <option value="Kirk">Kirk</option>
+                                <option value="Spock">Spock</option>
+                                <option value="McCoy">McCoy</option>
+                                <option value="Fisher">Fisher</option>
+                            </select>
                             <button type="submit">Go</button>
                         </label>
                     </form>
-                    <p>Local segments only</p>
-                    <label className="switch">
-                        <input type="checkbox" onClick={this.toggleFilter}></input>
-                        <span className="slider round"></span>
-                    </label>
                 </div>
                 <br />
                 <button type="button" onClick={this.uploadNewSegment}>Upload new video</button><br />
