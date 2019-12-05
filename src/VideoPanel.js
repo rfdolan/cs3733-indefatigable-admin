@@ -28,9 +28,6 @@ class VideoPanel extends React.Component {
         this._isMounted = false;
     }
 
-    uploadNewSegment = () =>{
-        console.log("You want to upload a new segment don't you squidward.");
-    }
     
     getAllVideos = () => {
         axios.get(get_all_videos_url)
@@ -60,6 +57,8 @@ class VideoPanel extends React.Component {
         return (
             <div>
                 <div>
+                    <br />
+                    <br />
                     <form>
                         <label style={{display:"inline-block"}}>
                             Search:

@@ -45,6 +45,7 @@ class Video extends React.Component {
             console.log("Could not unmark")
         }
     }
+
     markRemote = () => {
         if (window.confirm('Are you sure')) {
             let data = {}
