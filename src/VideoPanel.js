@@ -46,8 +46,9 @@ class VideoPanel extends React.Component {
             let currVid = this.state.videos[i];
             // If we are not filtering by local only OR if we are and this is a local video, add it to the array.
             if( !currVid.isRemote){
+                //console.log(currVid);
                 vids.push(<li key={currVid.vuid} style={{listStyleType: "none", padding: "5px", float: "left"}}><Video title={currVid.title} transcript={currVid.transcript} url={currVid.url} 
-                    character={currVid.character} isRemote={currVid.isRemote} isRemotelyAvailable={currVid.isRemotelyAvailable} id={currVid.vuid}></Video></li>);
+                    character={currVid.character} isRemote={currVid.isRemote} isRemotelyAvailable={currVid.remoteAvailability} id={currVid.vuid} markingHandler={this.getAllVideos}></Video></li>);
             }
         }
         // Return our JSX tags to render.
