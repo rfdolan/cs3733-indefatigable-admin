@@ -78,7 +78,7 @@ class Video extends React.Component {
         // If the video segment is remote, unmark it. Else mark it.
         if(this.state.isRemotelyAvailable) {
             console.log("finna unmark");
-            //this.unmarkRemote();
+            this.unmarkRemote();
 
         }
         else {
@@ -90,7 +90,7 @@ class Video extends React.Component {
     }
 
     render() {
-        console.log(this.state);
+        //console.log(this.state);
         return (
             <div style={{padding:"10px", maxWidth:"325px", backgroundColor: "#3ed2e6", borderRadius: "25px" }}>
                 <h3>{this.state.title}</h3>
