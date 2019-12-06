@@ -3,6 +3,7 @@ import base_url from './api/api.js'
 import RemoteSite from './RemoteSite.js'
 
 const get_url = base_url + "getAllRemoteSites"
+const register_url = base_url + "registerRemoteSite"
 
 class RemoteSitePanel extends React.Component {
     _isMounted = false;
@@ -26,7 +27,7 @@ class RemoteSitePanel extends React.Component {
     getSites = () => {
         let xhr = new XMLHttpRequest()
         xhr.open("GET", get_url, true)
-        console.log("Sending");
+        //console.log("Sending");
         xhr.send()
         xhr.onloadend = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -39,6 +40,7 @@ class RemoteSitePanel extends React.Component {
 
     processGetSitesResponse = (result) => {
         let js = JSON.parse(result)
+        //console.log(js);
         let status = js["statusCode"]
         if (status === 200) {
             console.log("Got")
@@ -46,17 +48,54 @@ class RemoteSitePanel extends React.Component {
             this.setState({
                 sites: js["urls"]
             })
-            this.renderSites();
+            //this.renderSites();
         } else {
             console.log("Couldn't get")
         }
     }
 
+    registerSite = () => {
+        let xhr = new XMLHttpRequest()
+        let request = {};
+        request["url"] = this.state.siteToRegister;
+        let js = JSON.stringify(request);
+        xhr.open("POST", register_url, true)
+        //console.log("Sending");
+        xhr.send(js)
+        xhr.onloadend = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                this.processRegisterSiteResponse( xhr.responseText)
+            } else {
+                this.processRegisterSiteResponse( "N/A")
+            }
+        }
+    }
+
+    processRegisterSiteResponse = (result) => {
+        console.log("done");
+        let js = JSON.parse(result)
+        let status = js["responseCode"]
+        if (status === 200) {
+            console.log("Registered")
+            //console.log(result);
+            this.getSites();
+            this.setState({
+                siteToRegister: ""
+            })
+        } else {
+            console.log("Error registering")
+            console.log(js);
+        }
+    }
+
     renderSites = () => {
         let sites = [];
-        for(let i=0; i<this.state.sites.length; i++) {
-            let currSite = this.state.sites[i];
-            sites.push(<li key={currSite.url} style={{listStyleType: "none", padding: "5px", float: "left"}}><RemoteSite url={currSite}  /></li> )
+        let s;
+        for(s of this.state.sites) {
+            sites.push(<li  style={{listStyleType: "none"}} key={s}>
+                <RemoteSite url={s} deregisterHandler={this.getSites} />
+                </li> )
+            //console.log(s);
         }
         return sites;
     }
@@ -64,19 +103,28 @@ class RemoteSitePanel extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         })
-        console.log(this.state.siteToRegister);
+    }
+    /*
+
+    shouldComponentUpdate = () => {
+        return false;
+    }
+    */
+
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter') {
+            this.registerSite()
+        }
     }
 
     render() {
-        //console.log(this.state);
+        //console.log("RENDERING");
         return (
             <div >
                 Enter new remote site url: 
-                <input type="text" style={{margin:"5px"}} />
-                <button type="submit" name="siteToRegister" value={this.state.siteToRegister} onChange={e => this.handleChange(e)}style={{margin:"5px"}} >Register</button>
-                <br />
+                <input type="text" name="siteToRegister" onKeyPress={this.handleKeyPress} value={this.state.siteToRegister} style={{margin:"5px"}} onChange={e => this.handleChange(e)}/>
+                <button type="submit" style={{margin:"5px"}} onClick={this.registerSite}>Register</button>
                 {this.renderSites()}
-                <br />
             </div>
         )
     }

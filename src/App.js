@@ -13,8 +13,9 @@ class App extends React.Component {
     return (
       <div>
         <h1>INDEFATIGABLE</h1>
+        <h2>REMOTE SITES</h2>
         <RemoteSitePanel />
-        <br />
+        <h2>VIDEOS</h2>
         <VideoPanel />
       </div>
     );

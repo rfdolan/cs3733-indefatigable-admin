@@ -57,8 +57,6 @@ class VideoPanel extends React.Component {
         return (
             <div>
                 <div>
-                    <br />
-                    <br />
                     <form>
                         <label style={{display:"inline-block"}}>
                             Search:
