@@ -97,9 +97,11 @@ class Video extends React.Component {
                 <h3>{this.state.title}</h3>
                 <h4>Character: {this.state.character}</h4>
                 <h4>Transcript: {this.state.transcript}</h4>
-                <video display="block" margin="0 auto" src={this.state.url} width="320" height="240" style={{borderRadius: "25px"}} controls>Your browser does not support this video.</video>
+                <video display="block" margin="0 auto" src={this.state.url} width="320" height="240" 
+                style={{borderRadius: "25px"}} controls>Your browser does not support this video.</video>
                 <label>Remotely available?
-                    <input  name="isRemotelyAvailable" type="checkbox" onClick={this.handleMarkClick} defaultChecked={this.state.isRemotelyAvailable}></input>
+                    <input  name="isRemotelyAvailable" type="checkbox" onClick={this.handleMarkClick} 
+                    defaultChecked={this.state.isRemotelyAvailable}></input>
                 </label>
             </div>
         );

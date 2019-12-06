@@ -5,6 +5,7 @@ import './style/VideoPanel.css'
 import base_url from './api/api.js'
 
 const get_all_videos_url = base_url + "getAllSegments"
+const search_url = base_url + "searchSegments"
 
 /*
 const sampleData = [{title: "Vid Title", transcript: "It is illogical", url: "https://cs3733-indefatigable.s3.us-east-2.amazonaws.com/media/Kirk-ItIsIllogical.ogg",
@@ -16,6 +17,8 @@ class VideoPanel extends React.Component {
 
     state = {
         videos: [],
+        charSearch: "",
+        transSearch: "",
     }
 
     // These two functions make us promise not to update the state if the component
@@ -52,7 +55,7 @@ class VideoPanel extends React.Component {
             if (!currVid.isRemote) {
                 //console.log(currVid);
                 vids.push(
-                    <li key={currVid.vuid} style={{listStyleType: "none", padding: "5px"}}>
+                    <li key={currVid.vuid} style={{listStyleType: "none", padding: "5px", float:"left"}}>
                         <Video title={currVid.title} transcript={currVid.transcript} url={currVid.url}
                                character={currVid.character} isRemote={currVid.isRemote}
                                isRemotelyAvailable={currVid.remoteAvailability} id={currVid.vuid}
@@ -65,30 +68,73 @@ class VideoPanel extends React.Component {
         return vids
 
     }
+    searchVideos = () => {
+        //console.log("Character: " + this.state.charSearch)
+        //console.log("Transcript: " + this.state.transSearch)
 
+        let request = {}
+        request["transcript"] = this.state.transSearch
+        request["character"] = this.state.charSearch
+        //console.log(request)
+        let js = JSON.stringify(request)
+        //console.log("Request: " + js);
+        let xhr = new XMLHttpRequest()
+        xhr.open("POST", search_url, true)
+
+        xhr.send(js)
+
+        xhr.onloadend = () => {
+            //console.log(xhr);
+            //console.log(xhr.request);
+
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                //console.log("XHR:" + xhr.responseText);
+                this.processSearchResponse(xhr.responseText)
+            } else {
+                this.processSearchResponse("N/A")
+            }
+        }
+    }
+
+    processSearchResponse = (res) => {
+        if (res === "N/A") {
+            console.log("Something went wrong!!!!")
+        } else {
+            const videos = JSON.parse(res)
+            this.setState(videos)
+            if (this._isMounted) {
+                this.renderVideos()
+            }
+        }
+    }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter') {
+            this.searchVideos()
+        }
+    }
+    
     render() {
         return (
             <div>
                 <div>
-                    <form>
+                <form>
                         <label style={{display: "inline-block"}}>
-                            Search:
-                            <input type="text" style={{margin: "5px"}}/>
-                            <select style={{margin: "5px"}}>
-                                <option value="any">Any character</option>
-                                <option value="Kirk">Kirk</option>
-                                <option value="Spock">Spock</option>
-                                <option value="McCoy">McCoy</option>
-                                <option value="Fisher">Fisher</option>
-                            </select>
-                            <button type="submit">Go</button>
+                            Search Text:
+                            <input name="transSearch" type="text" onKeyPress={this.handleKeyPress} 
+                            placeholder="Text to search for" onChange={e => this.handleChange(e)} style={{margin: "5px"}}/>
+                            Character:
+                            <input name="charSearch" type="character" onKeyPress={this.handleKeyPress} 
+                            placeholder="Character name" onChange={e => this.handleChange(e)} style={{margin: "5px"}}/>
+                            <button type="button" onClick={this.searchVideos}>Go</button>
                         </label>
                     </form>
                 </div>
-                <br/>
-                <button type="button" onClick={this.uploadNewSegment}>Upload new video</button>
-                <br/>
-                <br/>
                 {this.renderVideos()}
             </div>
         )
