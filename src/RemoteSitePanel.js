@@ -6,7 +6,7 @@ const get_url = base_url + "getAllRemoteSites"
 const register_url = base_url + "registerRemoteSite"
 
 class RemoteSitePanel extends React.Component {
-    _isMounted = false;
+    _isMounted = false
 
     state = {
         sites: [],
@@ -16,12 +16,12 @@ class RemoteSitePanel extends React.Component {
     // These two functions make us promise not to update the state if the component
     // is not mounted.
     componentDidMount() {
-        this._isMounted = true;
-        this.getSites();
+        this._isMounted = true
+        this.getSites()
     }
 
     componentWillUnmount() {
-        this._isMounted = false;
+        this._isMounted = false
     }
 
     getSites = () => {
@@ -31,9 +31,9 @@ class RemoteSitePanel extends React.Component {
         xhr.send()
         xhr.onloadend = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
-                this.processGetSitesResponse( xhr.responseText)
+                this.processGetSitesResponse(xhr.responseText)
             } else {
-                this.processGetSitesResponse( "N/A")
+                this.processGetSitesResponse("N/A")
             }
         }
     }
@@ -97,7 +97,7 @@ class RemoteSitePanel extends React.Component {
                 </li> )
             //console.log(s);
         }
-        return sites;
+        return sites
     }
     handleChange = (e) => {
         this.setState({
@@ -131,4 +131,4 @@ class RemoteSitePanel extends React.Component {
 
 }
 
-export default RemoteSitePanel;
+export default RemoteSitePanel
