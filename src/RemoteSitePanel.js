@@ -116,7 +116,7 @@ class RemoteSitePanel extends React.Component {
         console.log("Sent");
         xhr.onloadend = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
-                this.processGetVideosFromSiteResponse( xhr.responseText, uid, url)
+                this.processGetVideosFromSiteResponse( xhr.responseText, uid, link)
             } else {
                 this.processGetVideosFromSiteResponse( "N/A", "", url)
             }
