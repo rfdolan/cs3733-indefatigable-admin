@@ -213,7 +213,8 @@ class RemoteSitePanel extends React.Component {
         return (
             <div >
                 Enter new remote site url: 
-                <input type="text" name="siteToRegister" onKeyPress={this.handleKeyPress} value={this.state.siteToRegister} style={{margin:"5px"}} onChange={e => this.handleChange(e)}/>
+                <input type="text" name="siteToRegister" onKeyPress={this.handleKeyPress} value={this.state.siteToRegister} 
+                style={{margin:"5px"}} onChange={e => this.handleChange(e)}/>
                 <button type="submit" style={{margin:"5px"}} onClick={this.registerSite}>Register</button>
                 {this.renderSites()}
             </div>
