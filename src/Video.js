@@ -93,7 +93,7 @@ class Video extends React.Component {
     render() {
         //console.log(this.state);
         return (
-            <div style={{padding:"10px", maxWidth:"325px", backgroundColor: "#3ed2e6", borderRadius: "25px" }}>
+            <div style={{padding: "10px", width: "335px", height: "450px", backgroundColor: "#3ed2e6", borderRadius: "25px", overflowY: "scroll"}}>
                 <h3>{this.state.title}</h3>
                 <h4>Character: {this.state.character}</h4>
                 <h4>Transcript: {this.state.transcript}</h4>
