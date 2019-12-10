@@ -84,7 +84,7 @@ class RemoteSitePanel extends React.Component {
                 siteToRegister: ""
             })
             let uid = js["uid"];
-            this.putVideosInDB(url, uid);
+            this.getVideosFromSite(url, uid);
         } else {
             console.log("Error registering")
             console.log(js);
@@ -105,26 +105,36 @@ class RemoteSitePanel extends React.Component {
     getVideosFromSite = (url, uid) => {
 
         let xhr = new XMLHttpRequest()
+        let q = url.indexOf("?apikey=");
+        let link = url.substring(0,q);
+        let api = url.substring(q+8);
         xhr.open("GET", url, true)
+        xhr.setRequestHeader("x-api-key", api);
         //console.log("Sending");
+        console.log("Getting videos from " + url);
         xhr.send()
+        console.log("Sent");
         xhr.onloadend = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
-                this.putVideosInDB( xhr.responseText, uid, url)
+                this.processGetVideosFromSiteResponse( xhr.responseText, uid, url)
             } else {
-                this.putVideosInDB( "N/A", "", url)
+                this.processGetVideosFromSiteResponse( "N/A", "", url)
             }
         }
 
     }
-    processGetVideosFromSiteResponse = (result, uid) => {
+    processGetVideosFromSiteResponse = (result, uid, url) => {
         console.log(result);
         let js = JSON.parse(result)
-        let status = js["responseCode"]
+        let status = js["statusCode"]
         if (status === 200) {
             console.log("Got, putting to db")
             //console.log(result);
-            this.putVideosInDB(uid, result.list);
+            if(js["segments"] == null) {
+                alert("API Does not conform to standard, please deregister.");
+                return;
+            }
+            this.putVideosInDB(uid, js["segments"]);
             
         } else {
             console.log("Error registering")
@@ -135,14 +145,17 @@ class RemoteSitePanel extends React.Component {
 
     }
     putVideosInDB = ( uid, videos) => {
-        for(let i=0; i<videos.length(); i++) {
+        console.log(videos);
+        for(let i=0; i<videos.length; i++) {
+            console.log("doing a video");
            let currVid = videos[i]; 
-           this.putVideoInDB = (currVid, uid);
+           this.putVideoInDB(currVid, uid);
         }
         
     }
     putVideoInDB = (video, uid) => {
         //console.log(this.state);
+        console.log(video);
 
         var data = {}
         // Information from remote site.
@@ -150,10 +163,10 @@ class RemoteSitePanel extends React.Component {
         data["character"] = video.character;
         data["url"] = video.url;
 
-        data["remoteSiteId"] = uid;
+        data["remoteApiID"] = uid;
 
         var js = JSON.stringify(data)
-        //console.log("JS:" + js);
+        console.log("JS:" + js);
         var xhr = new XMLHttpRequest()
         xhr.open("POST", create_url, true)
 
@@ -177,17 +190,9 @@ class RemoteSitePanel extends React.Component {
         //console.log(js);
         if (status === 200) {
             console.log("Registered")
-            this.getAllVideos()
         } else {
             console.log("Didn't work dude.")
         }
-        this.setState({
-            newVideoB64: "",
-            newVideoCharacter: "",
-            newVideoFile: "",
-            newVideoTitle: "",
-            newVideoTranscript: ""
-        })
 
     }
     handleChange = (e) => {
