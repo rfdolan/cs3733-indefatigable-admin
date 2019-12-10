@@ -4,6 +4,7 @@ import RemoteSite from './RemoteSite.js'
 
 const get_url = base_url + "getAllRemoteSites"
 const register_url = base_url + "registerRemoteSite"
+const create_url = base_url + "registerVideo"
 
 class RemoteSitePanel extends React.Component {
     _isMounted = false
@@ -44,7 +45,7 @@ class RemoteSitePanel extends React.Component {
         let status = js["statusCode"]
         if (status === 200) {
             console.log("Got")
-            //console.log(result);
+            console.log(js);
             this.setState({
                 sites: js["urls"]
             })
@@ -64,14 +65,14 @@ class RemoteSitePanel extends React.Component {
         xhr.send(js)
         xhr.onloadend = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
-                this.processRegisterSiteResponse( xhr.responseText)
+                this.processRegisterSiteResponse( xhr.responseText, this.state.siteToRegister)
             } else {
                 this.processRegisterSiteResponse( "N/A")
             }
         }
     }
 
-    processRegisterSiteResponse = (result) => {
+    processRegisterSiteResponse = (result, url) => {
         console.log("done");
         let js = JSON.parse(result)
         let status = js["responseCode"]
@@ -82,6 +83,8 @@ class RemoteSitePanel extends React.Component {
             this.setState({
                 siteToRegister: ""
             })
+            let uid = js["uid"];
+            this.putVideosInDB(url, uid);
         } else {
             console.log("Error registering")
             console.log(js);
@@ -98,6 +101,94 @@ class RemoteSitePanel extends React.Component {
             //console.log(s);
         }
         return sites
+    }
+    getVideosFromSite = (url, uid) => {
+
+        let xhr = new XMLHttpRequest()
+        xhr.open("GET", url, true)
+        //console.log("Sending");
+        xhr.send()
+        xhr.onloadend = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                this.putVideosInDB( xhr.responseText, uid, url)
+            } else {
+                this.putVideosInDB( "N/A", "", url)
+            }
+        }
+
+    }
+    processGetVideosFromSiteResponse = (result, uid) => {
+        console.log(result);
+        let js = JSON.parse(result)
+        let status = js["responseCode"]
+        if (status === 200) {
+            console.log("Got, putting to db")
+            //console.log(result);
+            this.putVideosInDB(uid, result.list);
+            
+        } else {
+            console.log("Error registering")
+            console.log(js);
+        }
+
+        
+
+    }
+    putVideosInDB = ( uid, videos) => {
+        for(let i=0; i<videos.length(); i++) {
+           let currVid = videos[i]; 
+           this.putVideoInDB = (currVid, uid);
+        }
+        
+    }
+    putVideoInDB = (video, uid) => {
+        //console.log(this.state);
+
+        var data = {}
+        // Information from remote site.
+        data["transcript"] = video.text;
+        data["character"] = video.character;
+        data["url"] = video.url;
+
+        data["remoteSiteId"] = uid;
+
+        var js = JSON.stringify(data)
+        //console.log("JS:" + js);
+        var xhr = new XMLHttpRequest()
+        xhr.open("POST", create_url, true)
+
+        // send the collected data as JSON
+        xhr.send(js)
+        console.log("Sent")
+
+        // This will process results and update HTML as appropriate. 
+        xhr.onloadend = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                this.processCreateResponse(xhr.responseText)
+            } else {
+                this.processCreateResponse("N/A")
+            }
+        }
+    }
+    processCreateResponse = (result) => {
+        let js = JSON.parse(result)
+        let status = js["statusCode"]
+        // on success, render playlists again
+        //console.log(js);
+        if (status === 200) {
+            console.log("Registered")
+            this.getAllVideos()
+        } else {
+            console.log("Didn't work dude.")
+        }
+        this.setState({
+            newVideoB64: "",
+            newVideoCharacter: "",
+            newVideoFile: "",
+            newVideoTitle: "",
+            newVideoTranscript: ""
+        })
+
     }
     handleChange = (e) => {
         this.setState({

@@ -48,7 +48,7 @@ class RemoteSite extends React.Component {
         //console.log("Site: " + this.state.site);
         return (
            <div >
-                <h4 style={{maxWidth:"300px", display:"inline-block"}}>{this.state.site}</h4>
+                <h4 style={{maxWidth:"400px", display:"inline-block"}}>{this.state.site}</h4>
                 <FaTrashAlt style={{ width:"30px"}} onClick={this.deregisterSite}/>
             </div>
         )
