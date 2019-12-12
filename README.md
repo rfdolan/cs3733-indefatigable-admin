@@ -1,68 +1,58 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Frontend administrator view for CS3733 Software Engineering project.
 
-In the project directory, you can run:
+B Term 2019
 
-### `yarn start`
+By:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Raymond Dolan
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+René Borner
 
-### `yarn test`
+Jusitn Aquilante
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+James Plante
 
-### `yarn build`
+### To start this project
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Clone the repository
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Run 'npm install.'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Run 'npm start' to run the project on localhost:3000
 
-### `yarn eject`
+## HOW TO PERFORM USE CASES
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Mark Local Video Segment
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Click the small checkbox on the segment you wish to mark to check it.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Display will be refreshed with segment marked.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Unmark Local Video Segment
 
-## Learn More
+Click the small checkbox on the segment you wish to unmark to uncheck it.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Display will be refreshed with segment unmarked.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Register Remote Site
 
-### Code Splitting
+Type the url of the remote site you wish to register into the text box and press submit.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+If url is valid, display witll refresh with new list of remote sites.
 
-### Analyzing the Bundle Size
+All videos from that site are now available in the participant view.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### Unregister Remote Site
 
-### Making a Progressive Web App
+Click the trash icon next to the site you wish to deregister.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+The display will refresh with the new list of sites.
 
-### Advanced Configuration
+All videos at that site are now unavailable.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### List Remote Sites
 
-### Deployment
+Remote sites are listed at the top of the page by default.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
